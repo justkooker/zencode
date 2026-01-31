@@ -1,9 +1,11 @@
 import { FaTrashAlt } from "react-icons/fa";
+
 import { formatDate } from "../utils";
 import { type Order, type Product, type ProductPrice } from "../types";
-import imagePlaceholder from "../assets/image-placeholder.webp";
+
 import ProductImage from "../components/ProductImage";
 
+import imagePlaceholder from "../assets/image-placeholder.webp";
 interface ProductProps {
   shortView?: boolean;
   modalView?: boolean;

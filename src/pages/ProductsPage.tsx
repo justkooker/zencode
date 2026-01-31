@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import List from "../components/List";
+
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { fetchProducts } from "../services/productsServices";
+import { productsApi } from "../services/api";
+import { selectProducts } from "../store/selectors/productsSelector";
+
 import Filter from "../Filter";
-import PageTitle from "../PageTitle";
+import PageTitle from "../components/PageTitle";
 import ProductRow from "../components/ProductRow";
 import ScrollContainer from "../components/ScrollContainer";
-import { selectProducts } from "../store/selectors/productsSelector";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
-import { productsApi } from "../services/api";
+import List from "../components/List";
 
 const ProductsPage = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +34,7 @@ const ProductsPage = () => {
     setIsConfirmOpen(false);
   };
   const filteredProducts = useAppSelector((state) =>
-    selectProducts(state, filterType),
+    selectProducts(state, filterType)
   );
   const handleConfirmDelete = async () => {
     if (!toDeleteId) return;

@@ -195,6 +195,7 @@ div.my-navbar a.menu__item:hover {
 .products-page,
 .order-page {
   width: calc(100% - 200px);
+  min-width: 0; /* чтобы flex-элемент сжимался и не тянул горизонтальный скролл */
   padding: 70px 30px 20px 120px;
   overflow: hidden;
 }
@@ -228,9 +229,7 @@ div.my-navbar a.menu__item:hover {
 .product-page__item,
 .order-page__item {
   cursor: pointer;
-  transition:
-    width 1s ease,
-    opacity 0.3s ease;
+  transition: width 1s ease, opacity 0.3s ease;
 }
 .order-page__item .item__price_primary {
   line-height: 1.2;
@@ -374,15 +373,7 @@ div.my-navbar a.menu__item:hover {
   text-transform: uppercase;
   color: var(--color-text-muted);
 }
-/* .item__price, */
-.item__date {
-  /* grid-area: price;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: сenter;
-  justify-content: start;
-  line-height: 1; */
-}
+
 .item__price,
 .item__date {
   text-align: center;
@@ -436,9 +427,7 @@ div.my-navbar a.menu__item:hover {
 .item__order {
   color: var(--color-text-secondary);
   grid-area: order;
-  transition:
-    width 1s ease,
-    opacity 0.3s ease;
+  transition: width 1s ease, opacity 0.3s ease;
 }
 
 .item__btn {
@@ -455,9 +444,17 @@ div.my-navbar a.menu__item:hover {
 .item__btn_transaprent {
   background-color: transparent;
 }
-.page-title {
+.page-title,
+.title {
   color: var(--color-text-primary);
   min-width: max-content;
+}
+.title button {
+  color: var(--color-brand-accent);
+}
+button.button {
+  border: none;
+  background-color: transparent;
 }
 .filter {
   width: 100%;
@@ -501,14 +498,29 @@ div.my-navbar a.menu__item:hover {
 .item__el_hidden {
   display: none !important;
 }
+
 .order-page__container {
   max-width: 100%;
+  min-width: 0;
+  height: max-content;
   overflow: hidden;
   opacity: 0;
   transform: translateX(200%);
-
   transition-property: opacity, transform;
   transition-timing-function: ease;
+}
+.order-page__wrap {
+  background-color: var(--color-bg-surface);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+.order-page__container li {
+  border-left: none;
+  border-right: none;
+}
+.order-page__container li:last-child {
+  border-bottom: none;
 }
 .order-page__container.closing {
   opacity: 0;
@@ -581,4 +593,82 @@ button.close-btn {
   font-size: 30px;
   font-weight: 500;
   text-align: left;
+}
+.active-connections-widget {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.widget-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  position: relative;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.status-dot.connected {
+  background: #4caf50;
+}
+
+.status-dot.connecting {
+  background: #ff9800;
+}
+
+.status-dot.disconnected {
+  background: #f44336;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.widget-content {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.user-count {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  min-width: 24px;
+  text-align: center;
+}
+
+.user-label {
+  font-size: 12px;
+  color: #666;
+  white-space: nowrap;
+}
+
+.active-connections-widget:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }

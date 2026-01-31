@@ -2,22 +2,29 @@ import { FaTrashAlt, FaListUl } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
 import { formatDate } from "../utils";
 import { useAppSelector } from "../store/hooks";
-import { type Product } from "../types";
+import { type Product, type Order } from "../types";
 
 interface OrderProps {
   shortView?: boolean;
   activeOrder?: number;
   openDetails?: (id: number) => void;
   onDelete: (id: number) => void;
+  /** Для модалки подтверждения удаления: показать только этот приход */
+  ordersOverride?: Order[];
+  productsOverride?: Product[];
 }
 const OrderRow = ({
   shortView,
   openDetails,
   activeOrder,
   onDelete,
+  ordersOverride,
+  productsOverride,
 }: OrderProps) => {
-  const products = useAppSelector((state) => state.products.items);
-  const orders = useAppSelector((state) => state.orders.items);
+  const productsFromStore = useAppSelector((state) => state.products.items);
+  const ordersFromStore = useAppSelector((state) => state.orders.items);
+  const products = productsOverride ?? productsFromStore;
+  const orders = ordersOverride ?? ordersFromStore;
 
   const calcOrderTotal = (
     products: Product[],

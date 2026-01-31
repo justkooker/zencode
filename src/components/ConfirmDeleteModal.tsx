@@ -2,9 +2,11 @@ import { createPortal } from "react-dom";
 import CloseBtn from "./CloseBtn";
 import { useAppSelector } from "../store/hooks";
 import ProductRow from "./ProductRow";
+import OrderRow from "./OrderRow";
 import { FaTrashAlt } from "react-icons/fa";
 
 interface ConfirmModalProps {
+  variant?: "product" | "order";
   isOpen: boolean;
   onClose?: () => void;
   onConfirm?: () => void;
@@ -13,6 +15,7 @@ interface ConfirmModalProps {
 }
 
 const ConfirmDeleteModal = ({
+  variant = "product",
   isOpen,
   onClose,
   onConfirm,
@@ -20,7 +23,10 @@ const ConfirmDeleteModal = ({
   toDeleteId,
 }: ConfirmModalProps) => {
   const products = useAppSelector((state) => state.products.items);
+  const orders = useAppSelector((state) => state.orders.items);
+
   const selectedProduct = products.filter((item) => item.id === toDeleteId);
+  const selectedOrder = orders.filter((item) => item.id === toDeleteId);
 
   if (!isOpen) return null;
 
@@ -44,7 +50,19 @@ const ConfirmDeleteModal = ({
         >
           <div>
             <p className="confirm-title">{message}</p>
-            <ProductRow products={selectedProduct} modalView={true} />
+            {variant === "order" ? (
+              <ul className="d-flex flex-column mb-0 list-unstyled">
+                <OrderRow
+                  ordersOverride={selectedOrder}
+                  productsOverride={products}
+                  shortView={true}
+                  openDetails={() => {}}
+                  onDelete={() => {}}
+                />
+              </ul>
+            ) : (
+              <ProductRow products={selectedProduct} modalView={true} />
+            )}
           </div>
           <div className="confirm-buttons d-flex justify-content-end align-items-center gap-2">
             <button onClick={onClose} className="modal-btn modal-btn-cancel">
@@ -60,7 +78,7 @@ const ConfirmDeleteModal = ({
         </div>
       </div>
     </div>,
-    document.body,
+    document.body
   );
 };
 

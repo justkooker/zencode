@@ -7,16 +7,19 @@ import {
   clearConnections,
   setActiveConnections,
 } from "../store/slices/connectionsSlice";
-import { wsService, type ConnectionStatus, type ActiveConnection } from "../services/websocket";
-import "./ActiveConnections.css";
+import {
+  wsService,
+  type ConnectionStatus,
+  type ActiveConnection,
+} from "../services/websocket";
 
 const ActiveConnections = () => {
   const dispatch = useAppDispatch();
   const [connectionId] = useState(
-    `browser-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    `browser-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   );
   const connections = useAppSelector(
-    (state) => state.connections.activeConnections,
+    (state) => state.connections.activeConnections
   );
   const wsStatus = useAppSelector((state) => state.connections.wsStatus);
   const connectionSentRef = useRef(false);
@@ -97,9 +100,7 @@ const ActiveConnections = () => {
         <span className={`status-dot ${wsStatus}`}></span>
       </div>
       <div className="widget-content">
-        <div className="user-count">
-          {connections.filter((c) => c.id !== connectionId).length}
-        </div>
+        <div className="user-count">{connections.length}</div>
         <div className="user-label">онлайн</div>
       </div>
     </div>

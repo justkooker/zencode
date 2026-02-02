@@ -3,18 +3,10 @@ import { WebSocketServer } from "ws";
 const PORT = 8080;
 const wss = new WebSocketServer({ port: PORT });
 
-console.log(`✅ WebSocket сервер запущен: ws://localhost:${PORT}`);
+console.log(`WebSocket сервер запущен: ws://localhost:${PORT}`);
 
-/**
- * connections — ЕДИНСТВЕННЫЙ источник правды
- * key   -> connectionId
- * value -> данные пользователя
- */
 const connections = new Map();
 
-/**
- * Рассылка всем клиентам
- */
 function broadcast(message) {
   const data = JSON.stringify(message);
 
@@ -32,11 +24,8 @@ wss.on("connection", (ws) => {
 
   let connectionId = null;
 
-  console.log(`🔌 WebSocket подключён: ${clientId}`);
+  console.log(`WebSocket подключён: ${clientId}`);
 
-  /**
-   * Сообщения от клиента
-   */
   ws.on("message", (raw) => {
     try {
       const message = JSON.parse(raw.toString());
@@ -59,7 +48,6 @@ wss.on("connection", (ws) => {
             `➕ connect: ${connectionId}, всего: ${connections.size}`,
           );
 
-          // 🔁 синхронизация новому клиенту
           ws.send(
             JSON.stringify({
               type: "sync",
@@ -67,7 +55,6 @@ wss.on("connection", (ws) => {
             }),
           );
 
-          // 🔔 уведомление остальных
           broadcast({
             type: "connect",
             payload: connections.get(connectionId),
@@ -83,7 +70,7 @@ wss.on("connection", (ws) => {
             connections.delete(id);
 
             console.log(
-              `➖ disconnect: ${id}, всего: ${connections.size}`,
+              `disconnect: ${id}, всего: ${connections.size}`,
             );
 
             broadcast({
@@ -95,22 +82,19 @@ wss.on("connection", (ws) => {
         }
 
         default:
-          console.warn("⚠️ Неизвестный тип сообщения:", message.type);
+          console.warn("Неизвестный тип сообщения:", message.type);
       }
     } catch (err) {
-      console.error("❌ Ошибка обработки сообщения:", err);
+      console.error("Ошибка обработки сообщения:", err);
     }
   });
 
-  /**
-   * Закрытие вкладки / обрыв соединения
-   */
   ws.on("close", () => {
     if (connectionId && connections.has(connectionId)) {
       connections.delete(connectionId);
 
       console.log(
-        `❎ закрытие: ${connectionId}, всего: ${connections.size}`,
+        `закрытие: ${connectionId}, всего: ${connections.size}`,
       );
 
       broadcast({
@@ -125,9 +109,6 @@ wss.on("connection", (ws) => {
   });
 });
 
-/**
- * ❤️ Heartbeat
- */
 setInterval(() => {
   broadcast({
     type: "heartbeat",
@@ -138,9 +119,6 @@ setInterval(() => {
   });
 }, 5000);
 
-/**
- * 📊 Лог сервера
- */
 setInterval(() => {
   console.log(`📡 Онлайн: ${connections.size}`);
 }, 10000);

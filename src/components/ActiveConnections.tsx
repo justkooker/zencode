@@ -32,14 +32,11 @@ const ActiveConnections = () => {
   );
 
   useEffect(() => {
-    // Инициализация WebSocket
     wsService.connect().catch((error) => {
       console.error("Ошибка подключения WebSocket:", error);
     });
 
-    // Подписка на события WebSocket
     wsService.on("connectionAdded", (connection: any) => {
-      // Не добавляем себя повторно — мы уже в sync; по broadcast приходит и свой connect
       if (connection.id !== connectionId) {
         dispatch(addConnection(connection));
       }

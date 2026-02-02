@@ -34,10 +34,6 @@ const OrdersPage = () => {
   const activeOrderDetails = useAppSelector((state) =>
     selectFilteredProducts(state, activeOrder, filterType)
   );
-  console.log("activeOrderDetails", activeOrderDetails);
-  console.log("orders", orders);
-  console.log("activeOrder", typeof activeOrder);
-  console.log("filterType", filterType);
 
   useEffect(() => {
     if (isVisible) {

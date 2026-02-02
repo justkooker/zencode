@@ -17,9 +17,7 @@ services:
       context: server/api
       dockerfile: Dockerfile.api
     ports:
-      - "3001:3000"
-    volumes:
-      - ./db.json:/app/db.json
+      - "3001:3001"
 
   ws:
     build:

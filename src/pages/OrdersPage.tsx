@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { CiCirclePlus } from "react-icons/ci";
+import { FiPlus } from "react-icons/fi";
 
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { selectFilteredProducts } from "../store/selectors/productsSelector";
@@ -26,12 +26,18 @@ const OrdersPage = () => {
   const [toDeleteId, setToDeleteId] = useState<number | null>(null);
 
   const orders = useAppSelector((state) => state.orders.items);
-  const activeOrder = useAppSelector((state) => state.orders.activeOrderId);
+  const activeOrder = useAppSelector((state) =>
+    Number(state.orders.activeOrderId)
+  );
   const filterType = useAppSelector((state) => state.products.filterType);
 
   const activeOrderDetails = useAppSelector((state) =>
     selectFilteredProducts(state, activeOrder, filterType)
   );
+  console.log("activeOrderDetails", activeOrderDetails);
+  console.log("orders", orders);
+  console.log("activeOrder", typeof activeOrder);
+  console.log("filterType", filterType);
 
   useEffect(() => {
     if (isVisible) {
@@ -94,12 +100,24 @@ const OrdersPage = () => {
       handleClose();
     }
   };
-
   return (
     <>
       <div className="order-page w-100 flex-1 d-flex flex-column gap-4">
         <div className="d-flex align-items-center gap-5">
-          <PageTitle title="Приход" quantity={orders.length} />
+          <div className="d-flex align-items-center gap-2">
+            <Button>
+              <div
+                className="rounded-circle"
+                style={{
+                  backgroundColor: "var(--color-brand-primary)",
+                  border: "4px solid var(--color-brand-primary-dark)",
+                }}
+              >
+                <FiPlus size={26} color="ffffff" className="d-block" />
+              </div>
+            </Button>
+            <PageTitle title="Приход" quantity={orders.length} />
+          </div>
           <Filter value={filterType} />
         </div>
         <div className="d-flex justify-content-start gap-3">
@@ -114,7 +132,7 @@ const OrdersPage = () => {
                 />
               </List>
             </div>
-  
+
             <div
               className={`order-page__container pe-4 pt-4 ${
                 !!activeOrderDetails.length
@@ -136,10 +154,15 @@ const OrdersPage = () => {
                 />
                 <Button
                   type="button"
-                  className="pb-2 ps-4"
+                  className="pb-2 ps-4 br-50"
                   style={{ color: "var(--color-brand-primary)" }}
                 >
-                  <CiCirclePlus size={20} />
+                  <div
+                    className="rounded-circle"
+                    style={{ backgroundColor: "var(--color-brand-primary)" }}
+                  >
+                    <FiPlus size={20} color="ffffff" className="d-block" />
+                  </div>
                   Добавить продукт
                 </Button>
                 <ul className="d-flex flex-column mb-0 ">

@@ -45,10 +45,20 @@ const ProductRow = ({
             return (
               <li
                 key={id}
-                className={`product-page__item item  w-100 p-3 ${modalView ? "item_modal-products" : shortView ? "item_short-products" : "item_products"}`}
+                className={`product-page__item item  w-100 p-3 ${
+                  modalView
+                    ? "item_modal-products"
+                    : shortView
+                    ? "item_short-products"
+                    : "item_products"
+                }`}
               >
                 <span
-                  className={`item__status-mark ${status === ProductStatus.Available ? "item__status-mark_available" : "item__status-mark_repair"} `}
+                  className={`item__status-mark ${
+                    status === ProductStatus.Available
+                      ? "item__status-mark_available"
+                      : "item__status-mark_repair"
+                  } `}
                 ></span>
                 <div className={`item__img `}>
                   <ProductImage
@@ -69,10 +79,20 @@ const ProductRow = ({
           return (
             <li
               key={id}
-              className={`product-page__item item  w-100 p-3 ${modalView ? "item_modal-products" : shortView ? "item_short-products" : "item_products"}`}
+              className={`product-page__item item  w-100 p-3 ${
+                modalView
+                  ? "item_modal-products"
+                  : shortView
+                  ? "item_short-products"
+                  : "item_products"
+              }`}
             >
               <span
-                className={`item__status-mark ${status === ProductStatus.Available ? "item__status-mark_available" : "item__status-mark_repair"} `}
+                className={`item__status-mark ${
+                  status === ProductStatus.Available
+                    ? "item__status-mark_available"
+                    : "item__status-mark_repair"
+                } `}
               ></span>
               <div className={`item__img `}>
                 <ProductImage
@@ -88,12 +108,18 @@ const ProductRow = ({
                 <span className={`item__serial`}>{serialNumber}</span>
               </div>
               <span
-                className={`item__status ${status === ProductStatus.Available ? "item__status_available" : "item__status_repair"}`}
+                className={`item__status ${
+                  status === ProductStatus.Available
+                    ? "item__status_available"
+                    : "item__status_repair"
+                }`}
               >
                 {status === ProductStatus.Available ? "cвободен" : "В ремонте"}
               </span>
               <div
-                className={` flex-column ${shortView ? "item__el_hidden" : "d-flex"}`}
+                className={` flex-column ${
+                  shortView ? "item__el_hidden" : "d-flex"
+                }`}
               >
                 <span className="item__guarantee">
                   <span>c &nbsp; </span>
@@ -105,7 +131,9 @@ const ProductRow = ({
                 </span>
               </div>
               <span
-                className={`item__condition ${shortView ? "item__el_hidden" : ""}`}
+                className={`item__condition ${
+                  shortView ? "item__el_hidden" : ""
+                }`}
               >
                 {isNew ? "новый" : "Б/У"}
               </span>
@@ -132,10 +160,12 @@ const ProductRow = ({
                 </span>
               </div>
               <span
-                className={`item__order underline truncate-2 ${shortView ? "item__el_hidden" : ""}`}
+                className={`item__order underline truncate-2 ${
+                  shortView ? "item__el_hidden" : ""
+                }`}
                 title={orders?.find((el: Order) => el.id === order)?.title}
               >
-                {orders?.find((el: Order) => el.id === order)?.title}
+                {orders?.find((el: Order) => Number(el.id) === order)?.title}
               </span>
               <div
                 className={`item__date ${shortView ? "item__el_hidden" : ""}`}
@@ -156,7 +186,7 @@ const ProductRow = ({
               </button>
             </li>
           );
-        },
+        }
       )}
     </>
   );

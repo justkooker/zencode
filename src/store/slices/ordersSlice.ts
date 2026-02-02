@@ -35,7 +35,7 @@ const ordersSlice = createSlice({
       }
     },
     setActiveOrder: (state, action: PayloadAction<number | null>) => {
-      state.activeOrderId = action.payload;
+      state.activeOrderId = Number(action.payload);
     },
 
     setLoading: (state, action: PayloadAction<boolean>) => {

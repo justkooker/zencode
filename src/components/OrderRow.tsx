@@ -28,16 +28,17 @@ const OrderRow = ({
 
   const calcOrderTotal = (
     products: Product[],
-    orderId: number,
+    orderId: number
   ): Record<string, number> => {
     return products
-      .filter((product) => product.order === orderId)
+      .filter((product) => product.order === Number(orderId))
       .flatMap((product) => product.price)
-      .reduce<Record<string, number>>((acc, price) => {
-        acc[price.symbol] = (acc[price.symbol] ?? 0) + price.value;
+      .reduce<Record<string, number>>((acc, { symbol, value }) => {
+        acc[symbol] = (acc[symbol] ?? 0) + value;
         return acc;
       }, {});
   };
+
   return (
     <>
       {orders.map(({ id, title, date }: any) => {
@@ -46,10 +47,14 @@ const OrderRow = ({
           <li
             onClick={() => openDetails?.(id)}
             key={id}
-            className={`order-page__item item w-100 ps-3 pe-0 ${shortView ? "item_short-order" : "item_order"}`}
+            className={`order-page__item item w-100 ps-3 pe-0 ${
+              shortView ? "item_short-order" : "item_order"
+            }`}
           >
             <span
-              className={`item__order truncate truncate-1 underline ${shortView ? "hidden-order-el" : "showned-order-el"}  `}
+              className={`item__order truncate truncate-1 underline ${
+                shortView ? "hidden-order-el" : "showned-order-el"
+              }  `}
               title={title}
             >
               {title}
@@ -63,7 +68,7 @@ const OrderRow = ({
               </button>
               <div className="d-flex flex-column">
                 <span>
-                  {products.filter((item) => item.order === id).length}
+                  {products.filter((item) => item.order === Number(id)).length}
                 </span>
                 <span>Продукта</span>
               </div>
@@ -77,7 +82,9 @@ const OrderRow = ({
               </span>
             </div>
             <div
-              className={`item__price py-3 ${shortView ? "item__el_hidden" : ""}`}
+              className={`item__price py-3 ${
+                shortView ? "item__el_hidden" : ""
+              }`}
             >
               <span className="item__price_secondary">
                 {price.USD}
@@ -96,7 +103,13 @@ const OrderRow = ({
                 e.stopPropagation();
                 onDelete(id);
               }}
-              className={`item__btn d-flex align-items-center justify-content-center w-100 p-0 ${shortView ? "item__btn_big" : ""} ${shortView && activeOrder !== id ? "item__btn_big item__btn_transaprent" : ""}`}
+              className={`item__btn d-flex align-items-center justify-content-center w-100 p-0 ${
+                shortView ? "item__btn_big" : ""
+              } ${
+                shortView && activeOrder !== id
+                  ? "item__btn_big item__btn_transaprent"
+                  : ""
+              }`}
               type="button"
               disabled={shortView}
             >

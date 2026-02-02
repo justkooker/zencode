@@ -8,11 +8,11 @@ export const selectFilteredProducts = createSelector(
   (_: RootState, __: number | null, typeFilter: string) => typeFilter,
   (products, orderId, typeFilter) => {
     return products.filter((product: Product) => {
-      if (orderId !== null && product.order !== orderId) return false;
+      if (orderId !== null && orderId !== product.order) return false;
       if (typeFilter === "all") return true;
       return product.type === typeFilter;
     });
-  },
+  }
 );
 export const selectProducts = createSelector(
   (state: RootState) => state.products.items,
@@ -22,5 +22,5 @@ export const selectProducts = createSelector(
       if (typeFilter === "all") return true;
       return product.type === typeFilter;
     });
-  },
+  }
 );

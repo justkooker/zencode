@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "server": "json-server --watch db.json --port 3001",
-    "ws": "node ws-server.js",
+    "server": "npm --prefix server/api run start",
+    "ws": "npm --prefix server/ws run start",
     "dev:all": "concurrently -k \"npm run server\" \"npm run ws\" \"npm run dev\"",
     "build": "tsc -b && vite build",
     "lint": "eslint .",

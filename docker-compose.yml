@@ -14,7 +14,7 @@ services:
 
   api:
     build:
-      context: .
+      context: server/api
       dockerfile: Dockerfile.api
     ports:
       - "3001:3000"
@@ -23,7 +23,7 @@ services:
 
   ws:
     build:
-      context: .
+      context: server/ws
       dockerfile: Dockerfile.ws
     ports:
       - "8080:8080"
